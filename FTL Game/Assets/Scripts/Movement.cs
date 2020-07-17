@@ -70,7 +70,13 @@ public class Movement : MonoBehaviour
 
 	public void Move(InputAction.CallbackContext context)
 	{
-		movement = context.ReadValue<Vector2>();
+		//movement = context.ReadValue<Vector2>();
+	}
+
+	public void ClickToMove(InputAction.CallbackContext context)
+	{
+		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		print(mousePos);
 	}
 
 }
