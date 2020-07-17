@@ -22,12 +22,16 @@ public class Movement : MonoBehaviour
 	public float dragForce;
 	float initalZoneForce;
 	float initalZoneDrag;
+	//Holo
+	public GameObject hologram;
+	public bool settingNewPos = false;
 
 	private void Start()
 	{
 		initalZoneForce = playZone.GetComponent<AreaEffector2D>().forceMagnitude;
 		initalZoneDrag = playZone.GetComponent<AreaEffector2D>().drag;
 		distanceFromStartZone = transform.position.y - playZone.transform.position.y;
+		hologram.SetActive(false);
 	}
 
 
@@ -52,6 +56,13 @@ public class Movement : MonoBehaviour
 		//Input
 		//movement.y = Input.GetAxisRaw("Vertical");
 
+		//Holo
+		if(hologram.activeSelf == true && settingNewPos)
+		{
+			hologram.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		}
+		
+
 	}
 
 	private void FixedUpdate()
@@ -63,7 +74,7 @@ public class Movement : MonoBehaviour
 		rb.drag = dragForce;
 		//rb.MoveRotation(rb.rotation + -Input.GetAxisRaw("Horizontal"));
 		//print(rb.velocity);
-		;
+		
 		
 
 	}
@@ -73,10 +84,21 @@ public class Movement : MonoBehaviour
 		//movement = context.ReadValue<Vector2>();
 	}
 
-	public void ClickToMove(InputAction.CallbackContext context)
+	public void ClickButtonToMove(InputAction.CallbackContext context)
 	{
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		print(mousePos);
+		//print(mousePos);
+		if (settingNewPos == false)
+		{
+			settingNewPos = true;
+			hologram.SetActive(true);
+		}
+		else
+		{
+			settingNewPos = false;
+			hologram.SetActive(false);
+		}
+
 	}
 
 }
