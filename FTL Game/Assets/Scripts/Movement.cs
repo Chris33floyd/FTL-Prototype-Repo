@@ -26,6 +26,9 @@ public class Movement : MonoBehaviour
 	public GameObject hologram;
 	public bool settingNewPos = false;
 
+	bool canRotate = false;
+	float rotateAmount = 5;
+
 	private void Start()
 	{
 		initalZoneForce = playZone.GetComponent<AreaEffector2D>().forceMagnitude;
@@ -61,7 +64,11 @@ public class Movement : MonoBehaviour
 		{
 			hologram.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		}
-		
+
+		if (canRotate)
+		{
+			hologram.transform.Rotate(0, 0, rotateAmount);
+		}
 
 	}
 
@@ -79,9 +86,42 @@ public class Movement : MonoBehaviour
 
 	}
 
-	public void Move(InputAction.CallbackContext context)
+	public void Confirm(InputAction.CallbackContext context)
 	{
-		//movement = context.ReadValue<Vector2>();
+		if (settingNewPos == true)
+		{
+			settingNewPos = false;
+			GetComponent<Unit>().setTarget(hologram.transform);
+
+		}
+	}
+
+	public void RotateHoloLeft(InputAction.CallbackContext context)
+	{
+		
+		if(settingNewPos == true && context.action.triggered)
+		{
+			canRotate = true;
+			rotateAmount = Mathf.Abs(rotateAmount);
+		}
+		else
+		{
+			canRotate = false;
+		}
+	}
+
+	public void RotateHoloRight(InputAction.CallbackContext context)
+	{
+
+		if (settingNewPos == true && context.action.triggered)
+		{
+			canRotate = true;
+			rotateAmount = -Mathf.Abs(rotateAmount);
+		}
+		else
+		{
+			canRotate = false;
+		}
 	}
 
 	public void ClickButtonToMove(InputAction.CallbackContext context)
@@ -96,9 +136,9 @@ public class Movement : MonoBehaviour
 		else
 		{
 			settingNewPos = false;
-			hologram.SetActive(false);
 		}
 
 	}
+
 
 }

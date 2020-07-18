@@ -15,8 +15,16 @@ public class Unit : MonoBehaviour {
 	Path path;
 
 	void Start() {
-		StartCoroutine (UpdatePath ());
+		
 	}
+
+	public void setTarget(Transform pos)
+	{
+		target.position = pos.position;
+		target.rotation = pos.rotation;
+		StartCoroutine(UpdatePath());
+	}
+
 
 	public void OnPathFound(Vector2[] waypoints, bool pathSuccessful) {
 		if (pathSuccessful) {
