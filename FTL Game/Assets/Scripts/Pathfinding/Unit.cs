@@ -83,10 +83,11 @@ public class Unit : MonoBehaviour {
 					}
 				}
 
+				//Old Movement
 				//Quaternion targetRotation = Quaternion.LookRotation (path.lookPoints [pathIndex] - transform.position);
-				Quaternion targetRotation = faceTowards(path.lookPoints[pathIndex]);
-				transform.rotation = Quaternion.Lerp (transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-				transform.Translate (Vector2.up * Time.deltaTime * speed * speedPercent, Space.Self);
+				//Quaternion targetRotation = faceTowards(path.lookPoints[pathIndex]);
+				//transform.rotation = Quaternion.Lerp (transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+				//transform.Translate (Vector2.up * Time.deltaTime * speed * speedPercent, Space.Self);
 			}
 
 			yield return null;

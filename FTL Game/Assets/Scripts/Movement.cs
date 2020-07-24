@@ -31,8 +31,8 @@ public class Movement : MonoBehaviour
 
 	private void Start()
 	{
-		initalZoneForce = playZone.GetComponent<AreaEffector2D>().forceMagnitude;
-		initalZoneDrag = playZone.GetComponent<AreaEffector2D>().drag;
+		//initalZoneForce = playZone.GetComponent<AreaEffector2D>().forceMagnitude;
+		//initalZoneDrag = playZone.GetComponent<AreaEffector2D>().drag;
 		distanceFromStartZone = transform.position.y - playZone.transform.position.y;
 		hologram.SetActive(false);
 	}
@@ -40,27 +40,11 @@ public class Movement : MonoBehaviour
 
 	// Update is called once per frame
 	void Update()
-    {
-		distanceFromStartZone = transform.position.y - playZone.transform.position.y;
-
-		distanceText.text = "" + distanceFromStartZone;
-		statsText.text = " Velocity = " + rb.velocity;
-
-		float ratio = distanceFromStartZone / mapTop;
-		downForce = Mathf.Lerp(0, forceAtTop, ratio) -initalZoneForce;
-		downForce = Mathf.Clamp(downForce, 0, Mathf.Infinity);
-		dragForce = downForce / 2 - initalZoneDrag;
-		dragForce = Mathf.Clamp(dragForce, 0, Mathf.Infinity);
-
-		float dragRatio = Mathf.Sqrt(Mathf.Pow(rb.rotation, 2)) / 90;
-		dragRatio = Mathf.Clamp(dragRatio, 0, 1);
-		dragForce = Mathf.Lerp(dragForce, dragForce / 2, dragRatio);
-
-		//Input
-		//movement.y = Input.GetAxisRaw("Vertical");
+	{
+		CalculateGravity();
 
 		//Holo
-		if(hologram.activeSelf == true && settingNewPos)
+		if (hologram.activeSelf == true && settingNewPos)
 		{
 			hologram.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		}
@@ -70,6 +54,24 @@ public class Movement : MonoBehaviour
 			hologram.transform.Rotate(0, 0, rotateAmount);
 		}
 
+	}
+
+	private void CalculateGravity()
+	{
+		distanceFromStartZone = transform.position.y - playZone.transform.position.y;
+
+		distanceText.text = "" + distanceFromStartZone;
+		statsText.text = " Velocity = " + rb.velocity;
+
+		float ratio = distanceFromStartZone / mapTop;
+		downForce = Mathf.Lerp(0, forceAtTop, ratio) - initalZoneForce;
+		downForce = Mathf.Clamp(downForce, 0, Mathf.Infinity);
+		dragForce = downForce / 2 - initalZoneDrag;
+		dragForce = Mathf.Clamp(dragForce, 0, Mathf.Infinity);
+
+		float dragRatio = Mathf.Sqrt(Mathf.Pow(rb.rotation, 2)) / 90;
+		dragRatio = Mathf.Clamp(dragRatio, 0, 1);
+		dragForce = Mathf.Lerp(dragForce, dragForce / 2, dragRatio);
 	}
 
 	private void FixedUpdate()
