@@ -15,14 +15,16 @@ public class Testing : MonoBehaviour
     void Update()
     {
 		//Left Mouse Button
-		//if (Input.GetMouseButtonDown(0))
-		//{
-		//	grid.SetValue(UtilsClass.GetMouseWorldPosition(), 56);
-		//}
-		////Right Mouse button
-		//if (Input.GetMouseButtonDown(1))
-		//{
-		//	Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
-		//}
-    }
+		if (Input.GetMouseButtonDown(0))
+		{
+			Vector3 position = UtilsClass.GetMouseWorldPosition();
+			int value = grid.GetValue(position);
+			grid.SetValue(position, value + 5);
+		}
+		//Right Mouse button
+		if (Input.GetMouseButtonDown(1))
+		{
+			
+		}
+	}
 }
